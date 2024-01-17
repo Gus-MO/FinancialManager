@@ -1,3 +1,7 @@
+# Personal
+local-tests/
+*manage.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

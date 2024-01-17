@@ -1,0 +1,4 @@
+[financial-manager]
+requires = [
+    "kivy[base]>2.3.0"
+]
