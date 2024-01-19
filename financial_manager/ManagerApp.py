@@ -10,10 +10,10 @@ from kivy.uix.button import Button
 
 # Inner Project imports
 from database.manage import DataBase
+from widgets.table import Table
 
 # General imports
 from pathlib import Path
-
 
 class MainScreen(GridLayout):
 
@@ -21,22 +21,27 @@ class MainScreen(GridLayout):
         super(MainScreen, self).__init__(**kwargs)
         self.data_base = data_base
 
-        #self.cols = 3
+        #self.cols = 3 # Moved to kv file
         self.add_widget(Label(text='Name'))
         self.add_widget(Label(text='Value'))
 
         btn = Button(text='Insert')
         self.add_widget(btn)
 
-        btn.bind(on_press=self.insert_callback)
+        btn.bind(on_press=self.insert_callback_spending)
 
         self.name_input = TextInput()
         self.value_input = TextInput()
         self.add_widget(self.name_input)
         self.add_widget(self.value_input)
 
-    def insert_callback(self, instance):
-        self.data_base.insert(self.name_input.text, self.value_input.text)
+        # Show table -- temporary spending only
+        self.view_table = Table(data_base.show_entries('spending'))
+        self.add_widget(self.view_table)
+
+    def insert_callback_spending(self, instance):
+        self.data_base.insert(self.name_input.text, self.value_input.text, 'spending')
+        self.view_table.add_row((str(0), self.name_input.text, self.value_input.text))
         return 
 
 class Manager(App):

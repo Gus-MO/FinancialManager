@@ -38,8 +38,8 @@ class DataBase():
             con = sqlite3.connect(path_str) #connection
             cur = con.cursor()              #cursor
     
-            cur.execute('CREATE TABLE spending(date_time, name TEXT, value REAL)')
-            cur.execute('CREATE TABLE incoming(date_time, name TEXT, value REAL)')
+            cur.execute("CREATE TABLE spending(date_time, name TEXT, value REAL)")
+            cur.execute("CREATE TABLE incoming(date_time, name TEXT, value REAL)")
     
             return con, cur
     
@@ -48,7 +48,18 @@ class DataBase():
     
         return con, cur
 
-    def insert(self, name, value):
+    def show_entries(self, table, *args):
+        '''
+        Take some filters as input and return the stored data
+        '''
+        if not args:
+            data = self.cursor.execute(f"SELECT * FROM {table}")
+
+        pass
+
+        return data
+
+    def insert(self, name, value, table):
         # Inserts a new entry to the given database
         try:
             value = float(value)
@@ -58,8 +69,8 @@ class DataBase():
             # Insert some error checks
             pass
         
-        print(f'Inserting new entry: {name}\t{value}')
-        self.cursor.execute(f"INSERT INTO spending VALUES (0, '{name}', {value})")
+        print(f'Inserting new entry into {table}: {name}\t{value}')
+        self.cursor.execute(f"INSERT INTO {table} VALUES (0, '{name}', {value})")
         self.connection.commit()
         #try:
         #    self.cursor.execute(f"INSERT INTO spending VALUES ('{name}', {value})")
